@@ -14,7 +14,7 @@ let btnK = document.getElementsByName("btnK")[0];
 let googleInput = document.getElementsByName("q")[0];
 let links = document.links;
 let keyword = keywords[getRandom(0,keywords.length)];
-//googleInput.value = keyword;
+googleInput.value = keyword;
 
 if (btnK !== undefined) {
     let i = 0;
@@ -26,18 +26,26 @@ if (btnK !== undefined) {
             btnK.click();
         }
     },500);
-    
+
 }else{
+    let nextGooglePage = true;
     for (let i=0; i<links.length; i++) {
         if (links[i].href.includes('napli.ru')){
             let link = links[i];
+            let nextGooglePage = false;
             setTimeout(()=>{link.click();},getRandom(1500,4500));
-
-
             console.log("Нашел строку" + links[i]);
             break;
         }
     }
+    if (document.querySelector('.YyVfkd').innerText == "5") {
+    let nextGooglePage = false;
+    location.href = "https://www.google.com";
+    }
+    if (nextGooglePage = true) {
+    setTimeout(()=>{pnnext.click();},getRandom(2000,6000));
+
+}
 }
 function getRandom(min,max) {
     return Math.floor(Math.random()*(max-min)+min)
