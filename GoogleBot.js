@@ -8,8 +8,8 @@
 // @grant        none
 // ==/UserScript==
 
-let keywords = ["10 самых популярных шрифтов от Google", "Отключение редакций и ревизий в WordPress",
-                "Вывод произвольных типов записей и полей в WordPress", "как использовать DevTools браузера"];
+let keywords = ["10 самых популярных шрифтов от Google", "сервис от Mario Ranftl",
+                "хотим ограничить количество редакций", "как использовать DevTools браузера"];
 let btnK = document.getElementsByName("btnK")[0];
 let googleInput = document.getElementsByName("q")[0];
 let links = document.links;
@@ -23,14 +23,17 @@ if (btnK !== undefined) {
         i++;
         if (i == keyword.length) {
             clearInterval(timerId);
+            btnK.click();
         }
     },500);
-    btnK.click();
+    
 }else{
     for (let i=0; i<links.length; i++) {
         if (links[i].href.includes('napli.ru')){
             let link = links[i];
-            link.click();
+            setTimeout(()=>{link.click();},getRandom(1500,4500));
+
+
             console.log("Нашел строку" + links[i]);
             break;
         }
