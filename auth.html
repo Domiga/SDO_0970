@@ -105,10 +105,11 @@
 				});
 				//console.log(response.text());
 				let result = await response.text();
-        console.log("перед проверкой условия");
+        // console.log("перед проверкой условия");
 				if (result == "ok") {
-          console.log("ветка успеха");
-					alert("Успешно авторизован! ))");
+          // console.log("ветка успеха");
+					// alert("Успешно авторизован! ))");
+          location.href = "lk.php";
 				} else {
 					info.innerText = "Такого пользователя НЕТ!";
 				}
