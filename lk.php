@@ -53,13 +53,13 @@
 
 		<p>Имя: <span><?= $_SESSION['name'] ?></span>
 			<span class="edit-btn">[Изменить]</span>
-			<span class="save-btn" hidden>[Сохранить]</span>
+			<span class="save-btn" hidden data-item="name">[Сохранить]</span>
 			<span class="cancel-btn" hidden>[Отменить]</span>
 		</p>
 
 		<p>Фамилия: <span><?= $_SESSION['lastname'] ?></span>
 			<span class="edit-btn">[Изменить]</span>
-			<span class="save-btn" hidden>[Сохранить]</span>
+			<span class="save-btn" hidden data-item="lastname">[Сохранить]</span>
 			<span class="cancel-btn" hidden>[Отменить]</span>
 		</p>
 
@@ -77,14 +77,43 @@
 
 		for (let i = 0; i < edit_buttons.length; i++) {
 			let inputValue = edit_buttons[i].previousElementSibling.innerText;
-			edit_buttons[i].addEventListener("click", () => {
 
+			edit_buttons[i].addEventListener("click", () => {
 				edit_buttons[i].previousElementSibling.innerHTML = `<input type="text" value="${inputValue}">`
 				save_buttons[i].hidden = false;
 				cancel_buttons[i].hidden = false;
 				edit_buttons[i].hidden = true;
 			});
 
+			cancel_buttons[i].addEventListener("click", () => {
+				// Исчезновение и появление кнопок
+				cancel_buttons[i].hidden = true;
+				save_buttons[i].hidden = true;
+				edit_buttons[i].hidden = false;
+				// Убираем инпут
+				edit_buttons[i].previousElementSibling.innerHTML = inputValue;
+			});
+
+			save_buttons[i].addEventListener("click", async () => {
+				let newInputValue = edit_buttons[i].previousElementSibling.firstElementChild.value; //Сохраняем значение инпута
+
+				// Исчезновение и появление кнопок
+				save_buttons[i].hidden = true;
+				cancel_buttons[i].hidden = true;
+				edit_buttons[i].hidden = false;
+				// Убираем инпут
+				edit_buttons[i].previousElementSibling.innerText = newInputValue;
+				// Отправка на сервер
+				let formData = new FormData();
+				formData.append("value", newInputValue);
+				formData.append("item", save_buttons[i].dataset.item);
+
+				let response = await fetch('/php/lk_obr.php', {
+					method: 'POST',
+					body: formData,
+				});
+
+			});
 		}
 	</script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
